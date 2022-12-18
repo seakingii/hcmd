@@ -203,6 +203,25 @@ hcmd monitor_container
 hcmd systemd
 ```
 
+### 创建一个 web terminal 服务
+
+默认端口 2000
+
+```
+hcmd web_terminal
+```
+
+指定端口
+
+```
+hcmd web_terminal --port 1234
+```
+
+
+
+客户端可以用网页访问此模拟终端
+
+
 > 后续将陆续更新添加新的功能
 
 
