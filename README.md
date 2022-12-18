@@ -1,67 +1,208 @@
-> LibreTranslate 是一个使用python开发的免费和开源的机器翻译API，完全是自我托管的。与其他API不同，它不依赖谷歌或Azure等专有供应商来进行翻译。相反，它的翻译引擎是由开源的Argos Translate库提供的。
+> hcmd 是一个简单方便的cmd 工具,可以在windows和linux下运行
 
-可以在 https://libretranslate.com  在线试用翻译效果.
-本人试验过,确实可以翻译,但出来的english->中文的翻译效果一言难尽,可以说不如人意.
-
-
-以下介绍安装过程:
-
-#### docker 安装
+#### 下载地址
 
 ```
-docker run -ti --rm -p 5000:5000 libretranslate/libretranslate
+https://github.com/seakingii/hcmd/releases
 ```
 
-运行时出错,报:
+#### 主要功能 
+
+- 下载大文件
+```
+hcmd download 
+```
+工具会启动5个线程去分段下载文件
+
+- 打印硬件信息
 
 ```
-Local package index not found, use package.update_package_index() to load it
-Traceback (most recent call last):
-  File "./venv/bin/libretranslate", line 33, in <module>
-    sys.exit(load_entry_point('libretranslate==1.3.3', 'console_scripts', 'libretranslate')())
-  File "/app/venv/lib/python3.8/site-packages/app/main.py", line 153, in main
-    app = create_app(args)
-  File "/app/venv/lib/python3.8/site-packages/app/app.py", line 142, in create_app
-    frontend_argos_language_source = languages[0]
-IndexError: list index out of range
-
+hcmd hardware
 ```
 
-看起来语言包没下载?没继续折腾,换个方法再试.
-
-#### pip 安装
+- 静态文件服务器
 
 ```
-pip install libretranslate
+hcmd fileserver
 ```
 
-安装顺利,执行时
+立即起一个WEB服务,将指定的目录里的文件以HTTP方式提供访问
+
+- tcp代理
 
 ```
-libretranslate 
+hcmd tcpproxy
 ```
 
-首次执行会去自动下载语言翻译模型,但非常的慢!
-后来等的受不了,强制结束下载过程 (ctrl + c)
+起一个tcp代理服务
 
-找到:
-c:\users\用户名\.local\share\argos-translate\packages
 
-删除这个目录里的所有文件,再去网站
-
-https://www.argosopentech.com/argospm/index/ 手动下载语言包,比如我就下载了
-
-en->ch 和 ch->en 两个包,解压缩后放到 c:\users\用户名\.local\share\argos-translate\packages 目录下
-
-重新运行 :
+- 字符串hash计算
 
 ```
-libretranslate --load-only en,zh
+hcmd hash_string  要计算的字符串 --type 算法类型
 ```
 
-这时再访问  http://localhost:5000 可以看到翻译页面,能进行翻译了
+算法类型有:
+
+1. md4
+2. md5
+3. sha1
+4. sha256
+5. sha512
+6. rc4
+7. ripemd160
+8. sha224
+9. sha384
 
 
+- 字符串编码 
+
+```
+hcmd encode_string 要编码的字符串 --type 编码算法
+```
+
+编码算法有:
+
+1. base16
+2. base32
+3. base58
+4. base62
+5. base64
+6. base64url
+7. base85
+8. base91
+9. base100
+10. morse
+11. safeurl
+
+
+- 字符串解码 
+
+```
+hcmd decode_string 要解码的字符串 --type 解码算法
+```
+
+解码算法有:
+
+1. base16
+2. base32
+3. base58
+4. base62
+5. base64
+6. base64url
+7. base85
+8. base91
+9. base100
+10. morse
+11. safeurl
+
+
+- hash文件 计算文件的HASH值 
+
+```
+hcmd hash_file 文件 --type HASH算法
+```
+
+或者 显示进度条
+
+```
+hcmd hash_file 文件 --type HASH算法 --progress true
+```
+
+HASH算法有:
+
+1. md5
+2. sha1
+3. sha256
+4. sha512
+
+
+
+- 产生唯一ID字符串
+
+```
+hcmd id
+```
+
+
+- 列出本地的IP地址
+
+所有IP
+
+```
+hcmd ip
+```
+
+IPV4
+```
+hcmd ipv4
+```
+
+IPV6
+
+```
+hcmd ipv6
+```
+
+
+- 列出本机所有进程
+
+```
+hcmd processes
+```
+
+
+- 显示本机的磁盘使用情况 
+
+```
+hcmd diskusage 
+```
+
+或者简单一点的
+
+```
+hcmd du
+```
+
+- 监控本机的资源占用监控
+
+```
+hcmd monitor
+```
+
+- 监控本机的CPU资源
+
+```
+hcmd monitor_cpu
+```
+
+- 监控本机的进程
+
+```
+hcmd monitor_proc
+```
+
+或者只监控一个进程 
+
+```
+hcmd monitor_proc -p 进程ID
+```
+
+- 监控本机的容器
+
+
+```
+hcmd monitor_container
+```
+
+- 创建一个 systemd 服务
+
+```
+hcmd systemd
+```
+
+> 后续将陆续更新添加新的功能
 
 
 
